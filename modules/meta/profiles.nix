@@ -24,6 +24,7 @@ in
         n.tui
         n.dev
         n.tg-ws-proxy
+        n.throne
       ];
     };
     home = rec {
