@@ -1,0 +1,14 @@
+{
+  "providers": {
+    "kimi": {
+      "baseUrl": "https://api.kimi.ai/coding/v1",
+      "api": "openai-completions",
+      "models": [
+        { "id": "kimi-for-coding" },
+        { "id": "kimi-for-coding-highspeed" },
+        { "id": "k3" },
+        { "id": "k3-256k", "contextWindow": 262144 }
+      ]
+    }
+  }
+}

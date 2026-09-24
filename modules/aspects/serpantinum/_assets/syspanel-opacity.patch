@@ -1,0 +1,47 @@
+--- a/quickshell/syspanel/SystemPanel.qml
++++ b/quickshell/syspanel/SystemPanel.qml
+@@ -383,7 +383,7 @@
+         signal leftClicked()
+         signal rightClicked()
+ 
+-        color: isActive ? activeColor : (qaMa.containsMouse ? ThemeBackend.surface1 : Qt.darker(ThemeBackend.surface0, 1.04))
++        color: isActive ? activeColor : (qaMa.containsMouse ? ThemeBackend.surface1 : Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks))
+         Behavior on color {
+             enabled: root.visible
+             ColorAnimation { duration: 150 }
+@@ -423,7 +423,7 @@
+     Rectangle {
+         id: sidebarPanel
+         anchors.fill: parent
+-        color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 0.97)
++        color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, OpacityExt.syspanelBg)
+         radius: Math.min(ThemeBackend.borderRadius, root.s(28))
+         border.width: 0
+         clip: true
+@@ -455,7 +455,7 @@
+                     Layout.preferredHeight: root.s(54)
+                     Layout.maximumHeight: root.s(54)
+                     radius: root.boxRadius
+-                    color: Qt.darker(ThemeBackend.surface0, 1.04)
++                    color: Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks)
+ 
+                     opacity: root.introTop
+                     transform: [
+@@ -548,7 +548,7 @@
+                     Layout.preferredHeight: slidersCol.implicitHeight + root.s(20)
+                     Layout.maximumHeight: slidersCol.implicitHeight + root.s(20)
+                     radius: root.boxRadius
+-                    color: Qt.darker(ThemeBackend.surface0, 1.04)
++                    color: Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks)
+ 
+                     opacity: root.introSliders
+                     transform: [
+@@ -971,7 +971,7 @@
+                                 Scale { origin.x: actionCapsule.width / 2; origin.y: actionCapsule.height / 2; xScale: 0.90 + (0.10 * root.introActions); yScale: 0.90 + (0.10 * root.introActions) }
+                             ]
+ 
+-                            color: (actionMa.containsMouse && !isDisabled) ? ThemeBackend.surface1 : Qt.darker(ThemeBackend.surface0, 1.04)
++                            color: (actionMa.containsMouse && !isDisabled) ? ThemeBackend.surface1 : Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks)
+                             Behavior on color {
+                                 enabled: root.visible
+                                 ColorAnimation { duration: 200 }
