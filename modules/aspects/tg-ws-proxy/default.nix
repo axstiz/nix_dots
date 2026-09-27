@@ -9,9 +9,12 @@
       # MTProto-прокси на 127.0.0.1:1443 (для Telegram этого достаточно).
       #
       # Секрет НЕ встраивается в сборку (иначе он попадает в store/историю и зависит от
-      # flake-eval): обёртка читает его при запуске из каталога
-      #   ~/.config/tg-ws-proxy/secret            (или $TG_WS_PROXY_SECRET_FILE)
-      # Одна строка без пробелов. Если файла нет — секрет генерируется случайно.
+      # flake-eval): обёртка читает его при запуске из файла
+      #   ~/.config/tg-ws-proxy/secret    (или $TG_WS_PROXY_SECRET_FILE)
+      # Одна строка 32 hex-символа, файл создаёт home-manager (см. home.nix). В argv
+      # секрет не попадает: путь передаётся через --secret-file, добавленный патчем
+      # (апстрим умеет только --secret, который виден в `ps` любому пользователю).
+      # Если файла нет — секрет генерируется случайно на один запуск.
       pythonEnv = pkgs.python3.withPackages (ps: [
         ps.cryptography
         ps.certifi
@@ -26,6 +29,7 @@
           rev = "v1.10.2";
           hash = "sha256-XpO0Hmi0Hotu5TdOZ6+Cg/YBaF31RHJ5MfPJ1JKpPr8=";
         };
+        patches = [ ./_assets/secret-file.patch ];
         nativeBuildInputs = [ pythonEnv ];
         installPhase = ''
           runHook preInstall
@@ -33,21 +37,15 @@
           cp -r proxy utils $out/lib/python/
           cat > $out/bin/tg-ws-proxy <<EOF
           #!${pythonEnv}/bin/python3
-          import os, pathlib, sys
+          import os, sys
           sys.path.insert(0, "$out/lib/python")
           argv = sys.argv[1:]
-          def load_secret():
+          if not any(a in ("--secret", "--secret-file") for a in argv):
               sp = os.environ.get("TG_WS_PROXY_SECRET_FILE") or os.path.expanduser("~/.config/tg-ws-proxy/secret")
-              try:
-                  return pathlib.Path(sp).read_text().strip()
-              except FileNotFoundError:
-                  return None
-          if not any(a == "--secret" for a in argv):
-              s = load_secret()
-              if s is None:
-                  print("tg-ws-proxy: secret file not found at ~/.config/tg-ws-proxy/secret, using random secret", file=sys.stderr)
+              if os.path.exists(sp):
+                  argv = ["--secret-file", sp] + argv
               else:
-                  argv = ["--secret", s] + argv
+                  print("tg-ws-proxy: secret file not found at " + sp + ", using random secret", file=sys.stderr)
           sys.argv = ["tg-ws-proxy"] + argv
           from proxy.tg_ws_proxy import main
           main()

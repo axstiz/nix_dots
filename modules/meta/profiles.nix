@@ -36,6 +36,7 @@ in
       ];
       desktop = minimal ++ [
         hm.serpantinum
+        hm.tg-ws-proxy
         hm.wm
       ];
     };
