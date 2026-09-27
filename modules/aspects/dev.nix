@@ -10,6 +10,8 @@
       uv
       # Редактор
       vscode
+      # Редактор: GUI запускается через zeditor — он сам находит бинарник в ../libexec/zed-editor
+      zed-editor
     ];
   };
 }

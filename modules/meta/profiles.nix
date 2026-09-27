@@ -38,6 +38,7 @@ in
         hm.serpantinum
         hm.tg-ws-proxy
         hm.wm
+        hm.zed
       ];
     };
   };
