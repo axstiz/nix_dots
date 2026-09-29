@@ -3,20 +3,27 @@
 # kitty-терминал на текущем рабочем столе. При открытии второго терминала
 # на том же столе (или новой вкладки) — ничего не выводим, чтобы не спамить.
 
+# Явный запрет от приложения (например, Zed прокидывает его в терминал).
+# Проверка идёт до KITTY_WINDOW_ID: переменная окружения наследуется от kitty,
+# из которого запущен редактор, и сама по себе ничего не доказывает.
+if [ -n "${NO_FASTFETCH:-}" ]; then
+	exit 0
+fi
+
 if [ -z "${KITTY_WINDOW_ID:-}" ]; then
-  # Мы не в kitty (vscode, emacs, и т.п.) — логотип не нужен.
-  exit 0
+	# Мы не в kitty (vscode, emacs, и т.п.) — логотип не нужен.
+	exit 0
 fi
 
 # Новая вкладка того же окна kitty (tab id > 1) — пропускаем.
 if [ -n "${KITTY_TAB_ID:-}" ] && [ "$KITTY_TAB_ID" -gt 1 ] 2>/dev/null; then
-  exit 0
+	exit 0
 fi
 
 command -v fastfetch >/dev/null 2>&1 || exit 0
 if ! command -v hyprctl >/dev/null 2>&1 || ! command -v python3 >/dev/null 2>&1; then
-  fastfetch
-  exit 0
+	fastfetch
+	exit 0
 fi
 
 # Подсчёт kitty-окон на активном рабочем столе (без jq, через python3).
@@ -38,6 +45,6 @@ print(n)
 ' "$(hyprctl activeworkspace -j 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin).get("id"))' 2>/dev/null)" 2>/dev/null)
 
 case "${count:-2}" in
-  1) fastfetch ;;
+1) fastfetch ;;
 esac
 exit 0

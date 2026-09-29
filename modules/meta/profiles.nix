@@ -23,6 +23,7 @@ in
         n.games
         n.tui
         n.dev
+        n.zed
         n.tg-ws-proxy
         n.throne
       ];
