@@ -11,14 +11,7 @@
     # --- Docker ---
     virtualisation.docker.enable = true;
 
-    # --- Прокси-клиент Throne (Qt GUI + встроенный core, без ручной докачки) ---
-    programs.throne = {
-      enable = true;
-      tunMode = {
-        enable = true;
-        setuid = true;
-      };
-    };
+    # --- Прокси-клиент Throne настраивается в aspects/vpn.nix ---
 
     # Батарея: Serpantinum читает состояние через D-Bus сервис upower
     services.upower.enable = true;

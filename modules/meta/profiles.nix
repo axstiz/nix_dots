@@ -25,7 +25,7 @@ in
         n.dev
         n.zed
         n.tg-ws-proxy
-        n.throne
+        n.vpn
       ];
     };
     home = rec {
