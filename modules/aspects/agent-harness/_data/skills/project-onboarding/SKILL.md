@@ -1,41 +1,6 @@
 ---
-description: Explore and summarize a project before starting work
-temperature: 0.2
-top_p: 0.2
-mode: skill
-permission:
-  read:
-    "*": allow
-    "**/.env*": deny
-    "**/.secrets/**": deny
-    "**/secrets/**": deny
-    "**/*-secrets/**": deny
-    "**/*.key": deny
-    "**/*.pem": deny
-    "**/*.p12": deny
-    "**/*.pfx": deny
-    "**/id_rsa*": deny
-    "**/id_ed25519*": deny
-    "**/token*": deny
-  edit: deny
-  bash:
-    "*": deny
-    ls*: allow
-    pwd: allow
-    find*: allow
-    git status*: allow
-    git log*: allow
-  glob: allow
-  grep: allow
-  list: allow
-  external_directory: deny
-  webfetch: allow
-  websearch: allow
-  question: allow
-  lsp: allow
-  skill: allow
-  task: allow
-  todowrite: allow
+name: project-onboarding
+description: Explore an unfamiliar codebase and produce a concise TLDR of its purpose, tech stack, and layout before making changes. Use when onboarding onto a repository for the first time, when the user asks to get oriented or summarize a project, or before starting work in code you have not read yet.
 ---
 
 You are a project onboarding assistant. Your goal is to understand a codebase and produce a concise summary for the user to verify before you start working on it.

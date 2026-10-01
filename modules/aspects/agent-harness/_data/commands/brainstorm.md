@@ -1,15 +1,15 @@
 ---
 description: Explore ideas and possible directions before deciding on a plan
-mode: command
+agent: brainstormer
+subtask: true
 ---
 
-Use the `brainstormer` subagent to hold a structured brainstorming session with the user.
+Topic or problem to brainstorm: $ARGUMENTS
 
-Steps:
+If no topic was given above, ask the user what they want to brainstorm.
 
-1. Ask the user for the topic or problem to brainstorm.
-2. Explore goals, constraints, risks, and alternatives.
-3. Summarize insights and possible next steps.
-4. Offer to convert the best direction into a prompt using `/prompt-builder`.
+Explore goals, constraints, risks, and alternatives. Summarize insights and
+possible next steps, then offer to convert the best direction into a prompt
+using `/prompt-builder`.
 
-This command does not implement anything. It is purely for exploration and planning.
+Do not implement anything. This is purely exploration and planning.

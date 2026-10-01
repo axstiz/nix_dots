@@ -1,8 +1,5 @@
 ---
 description: Run project onboarding to understand the codebase
-temperature: 0.2
-top_p: 0.2
-mode: command
 ---
 
 Use the `project-onboarding` skill to explore the project and produce a TLDR summary.

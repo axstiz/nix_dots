@@ -61,8 +61,22 @@
             "**/token*" = "deny";
           };
 
+          # Порядок важен: выигрывает последнее совпавшее правило,
+          # поэтому широкие идут первыми, узкие — в конце.
           bash = {
-            "*" = "ask";
+            "*" = "allow";
+
+            # Запуск скачанного кода. Ключи начинаются с "*", поэтому Nix
+            # ставит их сразу после обшего allow и они перекрывают его.
+            # "*sh*" покрывает sh, bash, zsh, dash, ksh.
+            "*|*node*" = "deny";
+            "*|*perl*" = "deny";
+            "*|*php*" = "deny";
+            "*|*python*" = "deny";
+            "*|*ruby*" = "deny";
+            "*|*sh*" = "deny";
+
+            # работа с историей — читаемо
             "git status*" = "allow";
             "git log*" = "allow";
             "git diff*" = "allow";
@@ -72,33 +86,69 @@
             "git config --get*" = "allow";
             "git rev-parse*" = "allow";
             "git ls-files*" = "allow";
-            "git add*" = "allow";
-            "ls*" = "allow";
-            "pwd" = "allow";
-            "cat*" = "allow";
-            "head*" = "allow";
-            "tail*" = "allow";
-            "find*" = "allow";
-            "which*" = "allow";
-            "command -v*" = "allow";
-            # 26.05+: shell return codes are inferred from selection; unknown → ask
-            "cargo build*" = "allow";
-            "cargo test*" = "allow";
-            "npm test*" = "allow";
-            "npm run*" = "allow";
-            "uv run*" = "allow";
-            "pytest*" = "allow";
-            "nix build*" = "ask";
-            "nixos-rebuild*" = "ask";
-            "rm*" = "ask";
-            "rm -rf*" = "deny";
+
+            # изменение репозитория и деструктивные операции — только с подтверждением
+            "git add*" = "ask";
+            "git commit*" = "ask";
             "git push*" = "ask";
             "git reset*" = "ask";
             "git clean*" = "ask";
-            "git commit*" = "ask";
+            "git checkout*" = "ask";
+            "git restore*" = "ask";
+            "git rebase*" = "ask";
+            "git merge*" = "ask";
+            "home-manager switch*" = "ask";
+            "nixos-rebuild*" = "ask";
+
+            # удаление
+            # ВНИМАНИЕ: Nix сериализует атрибуты по алфавиту, а opencode
+            # применяет последнее совпавшее правило. Поэтому deny-паттерны
+            # обязаны сортироваться ПОЗЖЕ широких ask/allow.
+            # "rm *" < "rm -rf*" < "rm -fr*" — deny выигрывает у ask.
+            "rm *" = "ask";
+            "rm -rf*" = "deny";
+            "rm -fr*" = "deny";
+            "rm -Rf*" = "deny";
+            "rm --recursive --force*" = "deny";
+            "trash*" = "ask";
+
+            # необратимое уничтожение данных
+            "mkfs*" = "deny";
+            "dd if=*" = "deny";
+            "dd of=*" = "deny";
+            "fdisk*" = "deny";
+            "hdparm*" = "deny";
+            "parted*" = "deny";
+            "sgdisk*" = "deny";
+            "wipefs*" = "deny";
+            "shred*" = "deny";
+            "truncate*" = "deny";
+            "nix-collect-garbage -d*" = "deny";
+            "nix-store --delete*" = "deny";
+
+            # форк-бомба
+            ":(){:|:&};:*" = "deny";
+
+            # привилегии и необратимые права
+            "chmod -R 777*" = "deny";
+            "sudo*" = "deny";
+            "su*" = "deny";
           };
 
-          external_directory = "deny";
+          external_directory = {
+            "*" = "ask";
+            "**/.env*" = "deny";
+            "**/.secrets/**" = "deny";
+            "**/secrets/**" = "deny";
+            "**/*-secrets/**" = "deny";
+            "**/*.key" = "deny";
+            "**/*.pem" = "deny";
+            "**/*.p12" = "deny";
+            "**/*.pfx" = "deny";
+            "**/id_rsa*" = "deny";
+            "**/id_ed25519*" = "deny";
+            "**/token*" = "deny";
+          };
 
           glob = {
             "*" = "allow";
