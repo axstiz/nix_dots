@@ -54,7 +54,6 @@
       # --- ПАКЕТЫ WM: бинды, скриншоты, клипборд, тема курсора ---
       environment.systemPackages = with pkgs; [
         pywal
-        imagemagick
         dart-sass
         rose-pine-hyprcursor
         wl-clipboard
@@ -65,9 +64,7 @@
         swappy
         fuzzel
         playerctl
-        brightnessctl
         hyprpicker
-        wireplumber
       ];
     };
 }

@@ -195,5 +195,31 @@
         source = wallpapers;
         recursive = false;
       };
+
+      # --- Рантайм-зависимости шелла ---
+      # Внешние команды из share/serpantinum/scripts и quickshell.
+      # Ставятся в home.packages, а не в systemPackages: сам шелл подключён
+      # только home-модулем (nixos.serpantinum в профиль не входит), и его
+      # скрипты запускаются из пользовательского окружения.
+      home.packages = with pkgs; [
+        # Скриншот, запись экрана и уведомления о них
+        ffmpeg
+        gpu-screen-recorder
+        libnotify
+        satty
+        wf-recorder
+        zbar
+
+        # Обои (индексатор, превью) и обложка трека
+        imagemagick
+
+        # Виджеты: cava-визуализатор и яркость подсветки
+        brightnessctl
+        cava
+
+        # Скрипты шелла
+        python3
+        quickshell
+      ];
     };
 }

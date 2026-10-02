@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.dev =
+  flake.modules.nixos.develop =
     { pkgs, ... }:
     let
       jdk = pkgs.jdk21;
@@ -13,8 +13,6 @@
         nodejs_22
         docker-compose
         lazydocker
-        # Python: менеджер пакетов/окружений
-        uv
         # Редактор
         vscode
         # Редактор: FHS-обёртка нужна расширениям с готовыми бинарниками (JDTLS)

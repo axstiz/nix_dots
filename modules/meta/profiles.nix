@@ -15,14 +15,16 @@ in
       ];
       desktop = base ++ [
         n.hardware-desktop
+        n.audio
         n.wm
         n.services
-        n.im
+        n.apps
         n.browsers
-        n.viewers
-        n.games
-        n.tui
-        n.dev
+        n.media
+        n.database
+        n.cli
+        n.toys
+        n.develop
         n.zed
         n.tg-ws-proxy
         n.vpn
@@ -40,6 +42,7 @@ in
         hm.tg-ws-proxy
         hm.wm
         hm.zed
+        hm.office
       ];
     };
   };

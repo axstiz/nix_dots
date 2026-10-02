@@ -92,31 +92,5 @@
         "chromium"
         "onlyoffice-desktopeditors"
       ];
-
-      environment.systemPackages = with pkgs; [
-        # Базовая утилита
-        git
-        vim
-        wget
-        xdg-user-dirs
-        gh
-        jq
-        fastfetch
-        # Архиваторы
-        zip
-        unzip
-        p7zip
-        unrar
-        # Поиск/просмотр/перевод
-        bat
-        eza
-        fzf
-        zoxide
-        duf
-        translate-shell
-        tree
-        cheat
-        tldr
-      ];
     };
 }

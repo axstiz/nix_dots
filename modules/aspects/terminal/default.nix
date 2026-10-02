@@ -13,11 +13,6 @@
       };
     in
     {
-      home.packages = [
-        # OnlyOffice: Documents (Word), Spreadsheets (Excel), Presentations (PowerPoint)
-        pkgs.onlyoffice-desktopeditors
-      ];
-
       # Конфиг fastfetch: фиолетовый градиент-логотип NixOS + нагрузка (cpu/ram) в каждом терминале.
       home.file.".config/fastfetch/config.jsonc" = {
         source = ./_assets/fastfetch/config.jsonc;

@@ -17,7 +17,7 @@
       # FHS-обёртка: с ней расширение java скачивает JDTLS и запускает его на
       # системном JDK. Работает, но отдельной проверки, что без FHS не
       # заработает, не делали — при переходе на pkgs.zed-editor смотреть лог.
-      # Пакет ставится в аспекте nixos.dev, здесь только ссылки на файлы.
+      # Пакет ставится в аспекте nixos.develop, здесь только ссылки на файлы.
       zedPkg = pkgs.zed-editor-fhs;
     in
     {
@@ -25,7 +25,7 @@
 
       # zed-editor кладёт .desktop и иконки в store, но environment.systemPackages
       # их не регистрирует — линкуем в пользовательские XDG-каталоги, чтобы Zed
-      # появился в лаунчере. Сам пакет ставится в аспекте nixos.dev.
+      # появился в лаунчере. Сам пакет ставится в аспекте nixos.develop.
       home.file = {
         ".local/share/applications/dev.zed.Zed.desktop".source =
           "${zedPkg}/share/applications/dev.zed.Zed.desktop";
