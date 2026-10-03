@@ -6,6 +6,63 @@
       # которых нет в Hyprland 0.54 (см. qs_manager.sh) — переключаемся напрямую.
       serpWs = n: k: "$mainMod, ${k}, workspace, ${n}";
       serpWsMove = n: k: "$mainMod SHIFT, ${k}, movetoworkspace, ${n}";
+
+      # Клавиатурная навигация в обзоре: плагин сам входит в сабмап hyprexpo
+      # при keynav_enable (дефолт 1), бинды без модификаторов.
+      hyprexpoBinds = [
+        ", h, hyprexpo:kb_focus, left"
+        ", l, hyprexpo:kb_focus, right"
+        ", k, hyprexpo:kb_focus, up"
+        ", j, hyprexpo:kb_focus, down"
+        ", RETURN, hyprexpo:kb_confirm"
+        ", ESCAPE, hyprexpo:expo, cancel"
+      ];
+
+      # Exposé-обзор рабочих столов. Собран против Hyprland 0.56.2 из тех же
+      # nixpkgs; при смене API плагина сборка упадёт на этапе компиляции.
+      hyprexpo = pkgs.gcc16Stdenv.mkDerivation {
+        pname = "hyprexpo";
+        version = "0.56.2+3";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "sandwichfarm";
+          repo = "hyprexpo";
+          rev = "852774edd577afad0c2e01d8b685772c80634524";
+          hash = "sha256-6uyYQPkcgr6ehELlMYaRQzpXemRW4nol8Ho0pmw6GSU=";
+        };
+
+        strictDeps = true;
+
+        nativeBuildInputs = [
+          pkgs.meson
+          pkgs.ninja
+          pkgs.pkg-config
+        ];
+
+        buildInputs = pkgs.hyprland.buildInputs ++ [
+          pkgs.hyprland.dev
+          pkgs.lua5_5
+        ];
+
+        configurePhase = ''
+          meson setup build --prefix=$out --buildtype=release
+        '';
+
+        buildPhase = ''
+          meson compile -C build
+        '';
+
+        installPhase = ''
+          meson install -C build --no-rebuild
+        '';
+
+        meta = {
+          homepage = "https://github.com/sandwichfarm/hyprexpo";
+          description = "Exposé-style workspace and window overview plugin for Hyprland";
+          license = pkgs.lib.licenses.bsd3;
+          platforms = pkgs.lib.platforms.linux;
+        };
+      };
     in
     {
       # Курсор для GTK-приложений (Nautilus, Telegram и т.д.) — бледно-сиреневый Rose Pine.
@@ -20,8 +77,22 @@
         enable = true;
         configType = "hyprlang";
 
+        # Home Manager генерирует для plugins только exec-once, а он не
+        # выполняется при hyprctl reload (так Home Manager перечитывает
+        # конфиг), поэтому плагин загружаем сами через exec с проверкой.
+        # Путь собирается так же, как это делает Home Manager.
+
+        # Клавиатурная навигация внутри обзора. Плагин входит в сабмап
+        # hyprexpo при keynav_enable (дефолт 1), Home Manager обрамляет
+        # binds декларациями submap = hyprexpo / submap = reset.
+        submaps.hyprexpo.settings.bind = hyprexpoBinds;
+
         settings = {
           "$mainMod" = "SUPER";
+
+          exec = [
+            "hyprctl plugin list | grep -q hyprexpo || hyprctl plugin load ${hyprexpo}/lib/lib${hyprexpo.pname}.so"
+          ];
 
           exec-once = [
             "serpantinumd start"
@@ -110,7 +181,31 @@
             new_status = "master";
           };
 
-          gesture = [ "3, horizontal, workspace" ];
+          gesture = [
+            "3, horizontal, workspace"
+            # Pinch всегда двумя пальцами; направление in/out плагину не нужно —
+            # CResizeTrackpadGesture работает по дельте в обе стороны.
+            "2, pinch, resize"
+          ];
+
+          plugin = {
+            hyprexpo = {
+              columns = 5;
+              rows = 2;
+              gaps_in = 8;
+              gaps_out = 24;
+              bg_col = "rgba(1a1a1a99)";
+              workspace_method = "center current";
+              label_position = "bottom-right";
+              border_color_current = "rgba(c4a7e7ee)";
+              border_color_focus = "rgba(e0def4ee)";
+              gesture_fingers = 4;
+              gesture_direction = "up";
+              gesture_distance = 240;
+              # Всегда сетка рабочих столов, даже если где-то появится scrolling.
+              overview_mode = "grid";
+            };
+          };
 
           misc = {
             disable_hyprland_logo = true;
@@ -172,6 +267,7 @@
             # Окна
             "$mainMod, Q, killactive"
             "$mainMod, G, fullscreen, 0"
+            "$mainMod, O, hyprexpo:expo, toggle"
             "$mainMod, T, togglefloating"
             "$mainMod SHIFT, S, togglespecialworkspace, magic"
             "$mainMod, TAB, cyclenext, prev"
