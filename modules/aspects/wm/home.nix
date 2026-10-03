@@ -190,8 +190,13 @@
 
           plugin = {
             hyprexpo = {
-              columns = 5;
-              rows = 2;
+              # Сетка ровно по занятым воркспейсам: пустых плиток нет,
+              # создать воркспейс из обзора нельзя (SUPER+SHIFT+N).
+              # columns/rows при dynamic_grid игнорируются, поэтому не задаём.
+              dynamic_grid = 1;
+              fill_gaps = 0;
+              mru_sort = 0;
+              show_workspace_numbers = 1;
               gaps_in = 8;
               gaps_out = 24;
               bg_col = "rgba(1a1a1a99)";
