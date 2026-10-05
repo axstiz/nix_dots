@@ -9,8 +9,6 @@
 
   user = {
     name = "litsummer";
-    fullname = "Матвей Вахрушев";
-    email = "litsummer@localhost";
     homeDir = "/home/litsummer";
   };
 
