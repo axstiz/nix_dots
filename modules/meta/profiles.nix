@@ -38,6 +38,7 @@ in
         hm.opencode
       ];
       desktop = minimal ++ [
+        hm.cli
         hm.serpantinum
         hm.tg-ws-proxy
         hm.wm

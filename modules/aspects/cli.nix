@@ -8,9 +8,12 @@
 
       # Просмотр и навигация
       bat
+      bk
+      epy
       eza
       fzf
       glow
+      termpdfpy
       zoxide
       duf
       tree
@@ -41,5 +44,11 @@
       tldr
       translate-shell
     ];
+  };
+
+  flake.modules.homeManager.cli = { ... }: {
+    # termpdf.py ищет браузер по списку gnome-open → gvfs-open → xdg-open → kde-open → firefox.
+    # У нас находится xdg-open, а он на NixOS без mimeapps.list открывает ссылки молча.
+    home.file.".config/termpdf.py/config".text = ''{ "URL_BROWSER": "firefox" }'';
   };
 }
