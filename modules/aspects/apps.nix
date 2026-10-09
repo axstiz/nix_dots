@@ -5,6 +5,7 @@
       yandex-music
       obsidian
       nautilus
+      zotero
     ];
   };
 }
