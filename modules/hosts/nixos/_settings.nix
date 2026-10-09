@@ -19,15 +19,11 @@
     allowedUDPPorts = [ ];
   };
 
-  # --- SWAP + ГИБЕРНАЦИЯ (host-specific) ---
-  # Файл подкачки на корне (ext4): страховка от OOM + база для гибернации,
-  # создаётся автоматически при активации. Образ ОЗУ ищется ядром по
-  # resume=<раздел> resume_offset=<физблок первого экстента файла>.
-  # Offset посчитан один раз: sudo filefrag -v /var/lib/swapfile | grep -m1 '^ 0:' → 17915904.
-  # ВАЖНО: если вручную удалить/пересоздать swap-файл — offset пересчитать и обновить тут.
-  swapSizeMb = 16 * 1024;
-  resumeDevice = "/dev/nvme0n1p5";
-  resumeOffset = "17915904";
+  # --- SWAP (host-specific) ---
+  # swap-файл отключён: гибернация (suspend-to-disk) не используется.
+  # Подкачку обеспечивает zram (см. aspects/system.nix). Осиротевший
+  # /var/lib/swapfile удаляется activation-хуком при swapSizeMb = 0.
+  swapSizeMb = 0;
 
   # tlp/thermald выключены: serpantinum управляет питанием через power-profiles-daemon
   tlp = false;

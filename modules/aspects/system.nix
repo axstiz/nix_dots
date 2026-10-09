@@ -9,6 +9,7 @@
     let
       h = config._module.args.host or { };
       swap = h.swapSizeMb or 16384;
+      swapFile = "/var/lib/swapfile";
     in
     {
       system.stateVersion = h.stateVersion or "24.11";
@@ -21,9 +22,9 @@
       boot.loader.efi.canTouchEfiVariables = true;
 
       # --- ГИБЕРНАЦИЯ (suspend-to-disk) ---
+      # Включается только если хост задал resumeDevice/resumeOffset в _settings.nix.
       # Образ ОЗУ пишется в swap-файл; ядро при загрузке ищет его по
       # resume=<раздел> resume_offset=<физблок первого экстента файла>.
-      # Значения читаются из host-настроек (_settings.nix хоста).
       # ВАЖНО: если вручную удалить/пересоздать swap-файл —
       # resume_offset пересчитать (sudo filefrag -v /var/lib/swapfile) и обновить.
       boot.resumeDevice = lib.mkIf (h.resumeDevice or null != null) h.resumeDevice;
@@ -36,10 +37,20 @@
       # Файл создаётся автоматически при активации.
       swapDevices = lib.mkIf (swap > 0) [
         {
-          device = "/var/lib/swapfile";
+          device = swapFile;
           size = swap;
         }
       ];
+      # NixOS при удалении swap из конфига делает только swapoff и не удаляет
+      # сам файл, поэтому чистим осиротевший файл при отключённом swap.
+      system.activationScripts.removeSwapfile = lib.mkIf (swap == 0) {
+        text = ''
+          if [ -e ${swapFile} ]; then
+            swapoff ${swapFile} 2>/dev/null || true
+            rm -f ${swapFile}
+          fi
+        '';
+      };
 
       # --- КНОПКА ПИТАНИЯ ---
       # Короткое нажатие: logind не перехватывает (по умолчанию он сразу выключает
