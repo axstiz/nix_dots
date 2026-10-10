@@ -43,6 +43,9 @@
         # share/fish/tools/create_manpage_completions.py, которого нет в fish 4.x —
         # сборка падает. Отключаем: fish и пакеты везут свои vendor completions.
         generateCompletions = false;
+        # abbr (не alias): разворачивается в строке и сохраняет
+        # автодополнение аргументов eza.
+        shellAbbrs.ez = "eza";
         interactiveShellInit = ''
           $HOME/bin/mayfastfetch.sh
         '';
