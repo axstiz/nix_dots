@@ -24,17 +24,40 @@
         executable = true;
       };
 
-      # fastfetch рисуется только на первом kitty-терминале текущего рабочего стола,
-      # чтобы большой логотип не спамил при каждом окне/вкладке.
       # PATH для ~/bin — прямо в bashrc: kitty запускает bash НЕ как логин-шелл,
       # а ~/.profile (он же home.sessionPath) интерактивный bash тогда не читает.
       programs.bash = {
         enable = true;
         initExtra = ''
           export PATH="$HOME/bin:$PATH"
+        '';
+      };
+
+      # fish — интерактивный шелл внутри kitty: подсказки и подсветка из коробки.
+      # Логин-шелл в /etc/passwd не меняется, bash остаётся для скриптов и TTY.
+      # fastfetch рисуется только на первом kitty-терминале текущего рабочего стола,
+      # чтобы большой логотип не спамил при каждом окне/вкладке (см. mayfastfetch.sh).
+      programs.fish = {
+        enable = true;
+        # HM release-26.05 генерирует completions по man-страницам через
+        # share/fish/tools/create_manpage_completions.py, которого нет в fish 4.x —
+        # сборка падает. Отключаем: fish и пакеты везут свои vendor completions.
+        generateCompletions = false;
+        interactiveShellInit = ''
           $HOME/bin/mayfastfetch.sh
         '';
       };
+
+      # starship только в fish: в bash остаётся штатный промпт,
+      # чтобы видеть, в каком шелле находишься.
+      programs.starship = {
+        enable = true;
+        enableBashIntegration = false;
+      };
+
+      # fzf (Ctrl-R история, Ctrl-T файлы) и zoxide (умный cd/z).
+      programs.fzf.enable = true;
+      programs.zoxide.enable = true;
 
       # --- Brain: терминальный ASCII-плеер «мозга» из ZAPP ---
       # Плеер bin/brain; кадры — запиненный снапшот репо, чтобы rebuild'ы были
@@ -70,9 +93,12 @@
       programs.kitty = {
         enable = true;
         settings = {
+          # Абсолютный путь: kitty стартует из Hyprland, где fish может быть ещё не в PATH.
+          shell = "${pkgs.fish}/bin/fish";
           copy_on_select = "clipboard";
-          # отступ слева: иконки промпта не наезжают на рамку
-          window_padding_left = 26;
+          # Внутренние отступы (top right bottom left): только слева 60.
+          # В kitty 0.48 нет ключа window_padding_left — только window_padding_width.
+          window_padding_width = "0 0 0 3";
           background_opacity = 0.75;
           background = "#000000";
           foreground = "#ffffff";
