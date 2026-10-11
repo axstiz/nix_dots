@@ -143,6 +143,28 @@
             };
           };
 
+          # Блюр под полупрозрачными панелями Serpantinum (layer-shell поверхности).
+          # ignore_alpha не даёт Hyprland блюрить полностью прозрачные области
+          # полноэкранных слоёв (qs-master и т.п.).
+          layerrule = [
+            "blur true, ignore_alpha 0.2, match:namespace qs-master"
+            "blur true, ignore_alpha 0.2, match:namespace qs-dock"
+            "blur true, ignore_alpha 0.2, match:namespace qs-floating-overlay"
+            "blur true, ignore_alpha 0.2, match:namespace qs-applauncher"
+            "blur true, ignore_alpha 0.2, match:namespace qs-clipboard"
+            "blur true, ignore_alpha 0.2, match:namespace qs-popups"
+            "blur true, ignore_alpha 0.2, match:namespace osd"
+            "blur true, ignore_alpha 0.2, match:namespace traymenu"
+            "blur true, ignore_alpha 0.2, match:namespace desktopmenu"
+            "blur true, ignore_alpha 0.2, match:namespace welcome-guide"
+          ];
+
+          # kitty 0.49.2 при старте шлёт xdg_toplevel.set_maximized(), а Hyprland
+          # 0.56 трактует это как fullscreen:1 (разворот на рабочую область).
+          # Подавляем клиентский запрос maximize только у kitty; диспетчер
+          # fullscreen ($mainMod, G) не затрагивается.
+          windowrule = [ "suppress_event maximize, match:class ^(kitty)$" ];
+
           animations = {
             enabled = true;
             bezier = [
