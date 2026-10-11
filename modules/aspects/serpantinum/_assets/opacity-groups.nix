@@ -13,27 +13,6 @@
     del = "Базовые поверхности (base/surface*): бар, панели, док";
   }
   {
-    key = "sidebarOuter";
-    default = 55;
-    icon = "󰍢";
-    title = "Sidebar — фон";
-    del = "Полупрозрачный фон авто-скрываемого бара сбоку";
-  }
-  {
-    key = "sidebarInner";
-    default = 60;
-    icon = "󰌵";
-    title = "Sidebar — контент";
-    del = "Контентная зона левой панели";
-  }
-  {
-    key = "pills";
-    default = 60;
-    icon = "󰓙";
-    title = "Sidebar — пилюли";
-    del = "Внутренние блоки с иконками (wifi/bt/vol/...)";
-  }
-  {
     key = "floating";
     default = 80;
     icon = "󰖟";
@@ -95,5 +74,12 @@
     icon = "󰽘";
     title = "Draw";
     del = "Панель быстрого рисования";
+  }
+  {
+    key = "notes";
+    default = 80;
+    icon = "󰈙";
+    title = "Заметки";
+    del = "Панель заметок";
   }
 ]

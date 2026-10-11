@@ -93,14 +93,15 @@
             # «Расширенные настройки» в Guide (файл beta/BetaTab.qml, ниже).
             cd "$out/share/serpantinum"
             patch -p1 < ${./_assets/theme-opacity.patch}
-            patch -p1 < ${./_assets/sidebar-opacity.patch}
-            patch -p1 < ${./_assets/sidebar-pills-opacity.patch}
             patch -p1 < ${./_assets/floating-opacity.patch}
             patch -p1 < ${./_assets/syspanel-opacity.patch}
             patch -p1 < ${./_assets/timer-opacity.patch}
             patch -p1 < ${./_assets/draw-opacity.patch}
+            patch -p1 < ${./_assets/notes-opacity.patch}
             patch -p1 < ${./_assets/lock-opacity.patch}
             patch -p1 < ${./_assets/calendar-opacity.patch}
+            # Док уезжает за край, когда открыт лаунчер
+            patch -p1 < ${./_assets/dock-launcher-hide.patch}
             patch -p1 < ${./_assets/extended-tab.patch}
             # Рантайм-синглтон прозрачности: СГЕНЕРИРОВАН из opacity-groups.nix
             install -m0644 ${opacityExtQml} "$out/share/serpantinum/quickshell/singletons/theme/OpacityExt.qml"
@@ -158,6 +159,7 @@
           bar = {
             position = "top";
             style = "fill";
+            opacity = 100;
             workspaceCount = 10;
             modules = {
               left = [

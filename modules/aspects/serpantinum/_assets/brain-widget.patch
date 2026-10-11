@@ -1,10 +1,8 @@
-diff --git a/quickshell/widgets/WidgetRegistry.qml b/quickshell/widgets/WidgetRegistry.qml
-index 47889d4..0402ef1 100644
 --- a/quickshell/widgets/WidgetRegistry.qml
 +++ b/quickshell/widgets/WidgetRegistry.qml
-@@ -246,6 +246,56 @@ QtObject {
+@@ -483,6 +483,56 @@
              variants: {
-                 "default": { file: "faces/BatteryFace.qml", icon: "1", label: I18n.t("widgets.variants.default") }
+                 "default": { file: "faces/github/GithubFace.qml", icon: "1", label: typeof I18n !== "undefined" ? I18n.t("widgets.variants.default", "Default") : "Default" }
              }
 +        },
 +        "brain": {
@@ -59,39 +57,31 @@ index 47889d4..0402ef1 100644
          }
      })
  
-diff --git a/assets/languages/en.json b/assets/languages/en.json
-index 69282af..0941d3e 100755
 --- a/assets/languages/en.json
 +++ b/assets/languages/en.json
-@@ -989,7 +989,12 @@
-       "visualizer": "Visualizer",
+@@ -1243,6 +1243,11 @@
        "user": "User",
        "usage": "Usage",
--      "battery": "Battery"
-+      "battery": "Battery",
+       "battery": "Battery",
 +      "brain": "Brain",
 +      "matrix": "Matrix Rain",
 +      "crtclock": "CRT Clock",
 +      "sky": "ASCII Weather",
-+      "plasma": "Plasma"
++      "plasma": "Plasma",
+       "github": "Github",
+       "time": "Time"
      },
-     "variants": {
-       "digital": "Digital",
-diff --git a/assets/languages/ru.json b/assets/languages/ru.json
-index f43233d..9f95cf6 100755
 --- a/assets/languages/ru.json
 +++ b/assets/languages/ru.json
-@@ -1033,7 +1033,12 @@
-       "visualizer": "Визуализатор",
+@@ -1287,6 +1287,11 @@
        "user": "Пользователь",
        "usage": "Нагрузка",
--      "battery": "Батарея"
-+      "battery": "Батарея",
+       "battery": "Батарея",
 +      "brain": "Мозг",
 +      "matrix": "Матрица",
 +      "crtclock": "Часы CRT",
 +      "sky": "Погода ASCII",
-+      "plasma": "Плазма"
++      "plasma": "Плазма",
+       "github": "Github",
+       "time": "Время"
      },
-     "variants": {
-       "digital": "Цифровые",

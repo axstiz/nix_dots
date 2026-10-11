@@ -1,0 +1,19 @@
+--- a/quickshell/dock/Dock.qml
++++ b/quickshell/dock/Dock.qml
+@@ -57,6 +57,8 @@
+                 property int configRevision: 0
+                 property bool initialized: false
+ 
++                readonly property bool launcherVisible: (typeof LauncherController !== "undefined") ? Boolean(LauncherController.isVisible) : false
++
+                 readonly property real screenWidth: (dockWindow.screen && dockWindow.screen.width > 0) ? dockWindow.screen.width : (dockScope.modelData && dockScope.modelData.width > 0 ? dockScope.modelData.width : 0)
+                 readonly property real screenHeight: (dockWindow.screen && dockWindow.screen.height > 0) ? dockWindow.screen.height : (dockScope.modelData && dockScope.modelData.height > 0 ? dockScope.modelData.height : 0)
+                 readonly property real effectiveWindowWidth: dockWindow.width > 0 ? dockWindow.width : screenWidth
+@@ -515,6 +517,7 @@
+                 }
+ 
+                 property bool isRevealed: {
++                    if (launcherVisible) return false;
+                     if (isFullscreenActive) return false;
+                     if (editMode) return true;
+                     if (!effectiveAutohide) return true;

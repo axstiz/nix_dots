@@ -1,6 +1,6 @@
 --- a/quickshell/syspanel/SystemPanel.qml
 +++ b/quickshell/syspanel/SystemPanel.qml
-@@ -383,7 +383,7 @@
+@@ -427,7 +427,7 @@
          signal leftClicked()
          signal rightClicked()
  
@@ -9,7 +9,7 @@
          Behavior on color {
              enabled: root.visible
              ColorAnimation { duration: 150 }
-@@ -423,7 +423,7 @@
+@@ -468,7 +468,7 @@
      Rectangle {
          id: sidebarPanel
          anchors.fill: parent
@@ -18,26 +18,26 @@
          radius: Math.min(ThemeBackend.borderRadius, root.s(28))
          border.width: 0
          clip: true
-@@ -455,7 +455,7 @@
+@@ -499,7 +499,7 @@
                      Layout.preferredHeight: root.s(54)
                      Layout.maximumHeight: root.s(54)
                      radius: root.boxRadius
 -                    color: Qt.darker(ThemeBackend.surface0, 1.04)
 +                    color: Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks)
- 
                      opacity: root.introTop
-                     transform: [
-@@ -548,7 +548,7 @@
+                     transform: Translate { x: (root.isLeftAnchored ? -root.rowSlideDistance : root.rowSlideDistance) * (1.0 - root.introTop) }
+ 
+@@ -588,7 +588,7 @@
                      Layout.preferredHeight: slidersCol.implicitHeight + root.s(20)
                      Layout.maximumHeight: slidersCol.implicitHeight + root.s(20)
                      radius: root.boxRadius
 -                    color: Qt.darker(ThemeBackend.surface0, 1.04)
 +                    color: Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.04), OpacityExt.syspanelBlocks)
- 
                      opacity: root.introSliders
-                     transform: [
-@@ -971,7 +971,7 @@
-                                 Scale { origin.x: actionCapsule.width / 2; origin.y: actionCapsule.height / 2; xScale: 0.90 + (0.10 * root.introActions); yScale: 0.90 + (0.10 * root.introActions) }
+                     transform: Translate { x: (root.isLeftAnchored ? -root.rowSlideDistance : root.rowSlideDistance) * (1.0 - root.introSliders) }
+ 
+@@ -1142,7 +1142,7 @@
+                                 Translate { x: (root.isLeftAnchored ? -root.rowSlideDistance : root.rowSlideDistance) * (1.0 - root.introActions) }
                              ]
  
 -                            color: (actionMa.containsMouse && !isDisabled) ? ThemeBackend.surface1 : Qt.darker(ThemeBackend.surface0, 1.04)

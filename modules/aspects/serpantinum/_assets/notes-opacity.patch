@@ -1,0 +1,11 @@
+--- a/quickshell/quickactions/actions/Notes.qml
++++ b/quickshell/quickactions/actions/Notes.qml
+@@ -432,7 +432,7 @@
+ 
+         Rectangle {
+             anchors.fill: parent
+-            color: ThemeBackend.mantle
++            color: Qt.rgba(ThemeBackend.mantle.r, ThemeBackend.mantle.g, ThemeBackend.mantle.b, OpacityExt.notes)
+             radius: ThemeBackend.borderRadius
+ 
+             Item {
