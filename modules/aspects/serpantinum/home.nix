@@ -100,6 +100,8 @@
             patch -p1 < ${./_assets/notes-opacity.patch}
             patch -p1 < ${./_assets/lock-opacity.patch}
             patch -p1 < ${./_assets/calendar-opacity.patch}
+            # Погода: прокси только для HTTP-запроса weather.sh (локальный SOCKS Throne)
+            patch -p1 < ${./_assets/weather-proxy.patch}
             # Док уезжает за край, когда открыт лаунчер
             patch -p1 < ${./_assets/dock-launcher-hide.patch}
             patch -p1 < ${./_assets/extended-tab.patch}

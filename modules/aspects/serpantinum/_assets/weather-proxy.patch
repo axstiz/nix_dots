@@ -1,0 +1,18 @@
+--- a/scripts/weather.sh
++++ b/scripts/weather.sh
+@@ -7,7 +7,15 @@
+ qs_ensure_cache "weather"
+ 
+ export LC_ALL=C
++
++# api.open-meteo.com заблокирован провайдером напрямую. Прокидываем только
++# HTTP-запрос погоды через локальный SOCKS Throne, если он поднят (иначе — прямо).
++# Env задаётся лишь для процесса weather.sh и не протекает в лончер serpantinum.
++if [[ -z "${ALL_PROXY:-}" ]] && (exec 3<>/dev/tcp/127.0.0.1/2080) 2>/dev/null; then
++    export ALL_PROXY=socks5h://127.0.0.1:2080
++    export NO_PROXY=127.0.0.1,localhost
++fi
+ 
+ cache_dir="$QS_CACHE_WEATHER"
+ json_file="${cache_dir}/weather.json"
+ view_file="${cache_dir}/view_id"
