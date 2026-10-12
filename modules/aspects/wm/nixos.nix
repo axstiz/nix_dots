@@ -1,24 +1,66 @@
 {
-  flake-file.inputs.sddm-wired-theme = {
-    url = "git+https://github.com/faisalhsn/sddm-wired-theme?shallow=1";
+  flake-file.inputs.pixie-sddm = {
+    url = "github:xCaptaiN09/pixie-sddm";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  flake-file.inputs.noctalia-sddm = {
+    url = "github:mahaveergurjar/sddm?ref=noctalia";
+    flake = false;
+  };
+
+  flake-file.inputs.nothing-sddm = {
+    url = "github:mahaveergurjar/sddm?ref=nothing";
     flake = false;
   };
 
   flake.modules.nixos.wm =
     { inputs, pkgs, ... }:
     let
-
-      # Тема sddm-wired-theme (Serial Experiments Lain): гиф-фон, музыка и звук
-      # логина с любого закоса. В nixpkgs её нет — собираем из flake-инпута.
-      wiredTheme = pkgs.stdenvNoCC.mkDerivation {
-        pname = "sddm-wired-theme";
-        version = "2024-06-21";
-        src = inputs.sddm-wired-theme;
+      # Greeter-тема Nothing (Nothing OS): минималистичный QML-набор.
+      # Ветка без metadata.desktop/theme.conf — генерируем их сами и
+      # подменяем заглушку-аватар user.jpg на свой.
+      nothingTheme = pkgs.stdenvNoCC.mkDerivation {
+        pname = "sddm-nothing";
+        version = "1.0";
+        src = inputs.nothing-sddm;
         dontConfigure = true;
         dontBuild = true;
         installPhase = ''
-          mkdir -p $out/share/sddm/themes/sddm-wired-theme
-          cp -r $src/* $out/share/sddm/themes/sddm-wired-theme/
+          runHook preInstall
+          dir=$out/share/sddm/themes/nothing
+          mkdir -p "$dir"
+          cp -r $src/. "$dir/"
+          chmod -R u+w "$dir"
+          rm -f "$dir/README.md" "$dir/image.png"
+          cp ${./_assets/greeter-avatar.jpg} "$dir/user.jpg"
+
+          # Акцент и цвет текста берём из theme.conf (фолбэк — исходные значения).
+          sed -i 's,"#aa3333",(config.accent || "#aa3333"),g' "$dir/Main.qml"
+          sed -i 's,"white",(config.text || "white"),g' "$dir/Main.qml"
+
+          printf '%s\n' \
+            '[General]' \
+            '# Акцент: границы, кнопки, глиф сессии' \
+            'accent=#907aa9' \
+            '# Цвет текста' \
+            'text=white' \
+            > "$dir/theme.conf"
+          printf '%s\n' \
+            '[SddmGreeterTheme]' \
+            'Name=Nothing' \
+            'Description=Nothing OS SDDM Theme' \
+            'Author=mahaveergurjar' \
+            'License=MIT' \
+            'Type=greeter' \
+            'Version=1.0' \
+            'MainScript=Main.qml' \
+            'ConfigFile=theme.conf' \
+            'Theme-Id=nothing' \
+            'Theme-API=2.0' \
+            'QtVersion=6' \
+            > "$dir/metadata.desktop"
+          runHook postInstall
         '';
       };
     in
@@ -33,13 +75,17 @@
       services.displayManager.sddm = {
         enable = true;
         wayland.enable = true;
-        theme = "${wiredTheme}/share/sddm/themes/sddm-wired-theme";
+        # Активная тема: Nothing — на данный момент самая красивая из найденных
+        # (монохром + акцент Rosé Pine Iris #907aa9). Сниппеты для возврата к
+        # Pixie/Noctalia — в SDDM_THEMES.md.
+        theme = "${nothingTheme}/share/sddm/themes/nothing";
         # QML-зависимости темы в окружение гритера: обёртка sddm собирает
         # QML import-пути из extraPackages (qtwayland добавляет сам модуль).
-        # Wired-теме нужен qtmultimedia (музыка/звук логина) под Qt6.
+        # Ничего/Nothing использует qt5compat (GraphicalEffects).
         extraPackages =
           with pkgs.qt6;
           [
+            qtdeclarative
             qtsvg
             qt5compat
           ]

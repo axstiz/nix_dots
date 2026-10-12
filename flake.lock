@@ -67,6 +67,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -186,6 +204,40 @@
         "type": "github"
       }
     },
+    "noctalia-sddm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779630123,
+        "narHash": "sha256-e/gYI6znHXxlDCOVh4p265x3kO0nQUU897hCY1yEz88=",
+        "owner": "mahaveergurjar",
+        "repo": "sddm",
+        "rev": "40012eecd7f8be7ff4c3ae02241e5f58d28f82f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahaveergurjar",
+        "ref": "noctalia",
+        "repo": "sddm",
+        "type": "github"
+      }
+    },
+    "nothing-sddm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772882026,
+        "narHash": "sha256-rmWdUHh1jP1/JviwJJnfle68YviUi+O8Pg8GQDIhvsc=",
+        "owner": "mahaveergurjar",
+        "repo": "sddm",
+        "rev": "5f577b26e70bd47113cbdfe68ec45764716ceaad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mahaveergurjar",
+        "ref": "nothing",
+        "repo": "sddm",
+        "type": "github"
+      }
+    },
     "opencode-nix": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -204,6 +256,27 @@
       "original": {
         "owner": "dan-online",
         "repo": "opencode-nix",
+        "type": "github"
+      }
+    },
+    "pixie-sddm": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788628135,
+        "narHash": "sha256-wV5XnU+4ME1HZAsGad+Lb+zTCqryn0WWo75FaoOFefc=",
+        "owner": "xCaptaiN09",
+        "repo": "pixie-sddm",
+        "rev": "1e1a863761f742e8d509d569382b17c112e29fdc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xCaptaiN09",
+        "repo": "pixie-sddm",
         "type": "github"
       }
     },
@@ -237,9 +310,11 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
+        "noctalia-sddm": "noctalia-sddm",
+        "nothing-sddm": "nothing-sddm",
         "opencode-nix": "opencode-nix",
+        "pixie-sddm": "pixie-sddm",
         "pre-commit-hooks": "pre-commit-hooks",
-        "sddm-wired-theme": "sddm-wired-theme",
         "serpantinum": "serpantinum",
         "shell-wallpapers": "shell-wallpapers",
         "treefmt-nix": "treefmt-nix",
@@ -265,23 +340,6 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
-      }
-    },
-    "sddm-wired-theme": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787759648,
-        "narHash": "sha256-h2aqsokmZCxIBHWNPwQ/O0r7DQQfHsX64/goRCMLRv8=",
-        "ref": "refs/heads/master",
-        "rev": "40830e903829aa48df6a888f082663ab0ea12376",
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/faisalhsn/sddm-wired-theme"
-      },
-      "original": {
-        "shallow": true,
-        "type": "git",
-        "url": "https://github.com/faisalhsn/sddm-wired-theme"
       }
     },
     "serpantinum": {
@@ -338,6 +396,21 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

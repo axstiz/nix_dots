@@ -19,17 +19,25 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    noctalia-sddm = {
+      url = "github:mahaveergurjar/sddm?ref=noctalia";
+      flake = false;
+    };
+    nothing-sddm = {
+      url = "github:mahaveergurjar/sddm?ref=nothing";
+      flake = false;
+    };
     opencode-nix = {
       url = "github:dan-online/opencode-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pixie-sddm = {
+      url = "github:xCaptaiN09/pixie-sddm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    sddm-wired-theme = {
-      url = "git+https://github.com/faisalhsn/sddm-wired-theme?shallow=1";
-      flake = false;
     };
     serpantinum.url = "git+https://github.com/ilyamiro/serpantinum?rev=86ed6452f77a7a6c7491a24459235405b50e5deb";
     shell-wallpapers = {
