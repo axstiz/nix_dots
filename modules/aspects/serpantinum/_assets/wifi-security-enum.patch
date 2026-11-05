@@ -1,0 +1,28 @@
+--- a/quickshell/network/NetworkPopup.qml
++++ b/quickshell/network/NetworkPopup.qml
+@@ -1142,14 +1142,18 @@
+                 if (!net || !net.name) continue;
+ 
+                 let secStr = "Open";
+-                if (net.security === 1) secStr = "WEP";
+-                else if (net.security === 2) secStr = "WPA";
++                if (net.security === 0) secStr = "WPA3";
++                else if (net.security === 1) secStr = "WPA3";
++                else if (net.security === 2) secStr = "Enterprise";
+                 else if (net.security === 3) secStr = "WPA2";
+-                else if (net.security === 4) secStr = "WPA3";
+-                else if (net.security === 5) secStr = "WPA2/WPA3";
+-                else if (net.security === 6) secStr = "Enterprise";
+-                else if (net.security === 7) secStr = "OWE";
+-                else if (net.security > 0) secStr = "Secure";
++                else if (net.security === 4) secStr = "Enterprise";
++                else if (net.security === 5) secStr = "WPA";
++                else if (net.security === 6) secStr = "WEP";
++                else if (net.security === 7) secStr = "WEP";
++                else if (net.security === 8) secStr = "LEAP";
++                else if (net.security === 9) secStr = "OWE";
++                else if (net.security === 10) secStr = "Open";
++                else if (net.security === 11) secStr = "Open";
+ 
+                 let sig = net.signalStrength !== undefined ? Math.round(net.signalStrength * 100) : 0;
+                 if (sig > maxSig) { maxSig = sig; bestSsid = net.name; }

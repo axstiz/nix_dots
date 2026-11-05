@@ -105,6 +105,12 @@
             # Док уезжает за край, когда открыт лаунчер
             patch -p1 < ${./_assets/dock-launcher-hide.patch}
             patch -p1 < ${./_assets/extended-tab.patch}
+            # Wi-Fi: корректный маппинг net.security под enum Quickshell
+            # (открытые сети иначе просили пароль)
+            patch -p1 < ${./_assets/wifi-security-enum.patch}
+            # Wi-Fi: карточка «Редактор сетей» в мини-панели wifi-виджета —
+            # запускает nm-connection-editor (i18n-ключи en/ru в том же патче)
+            patch -p1 < ${./_assets/wifi-editor-button.patch}
             # Рантайм-синглтон прозрачности: СГЕНЕРИРОВАН из opacity-groups.nix
             install -m0644 ${opacityExtQml} "$out/share/serpantinum/quickshell/singletons/theme/OpacityExt.qml"
             sed -i "/singleton ThemeBackend 1.0/i singleton OpacityExt 1.0 singletons/theme/OpacityExt.qml" \

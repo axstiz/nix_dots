@@ -1,0 +1,46 @@
+--- a/quickshell/network/NetworkPopup.qml
++++ b/quickshell/network/NetworkPopup.qml
+@@ -1197,6 +1197,10 @@
+             newNetworks.push({ id: "action_settings", ssid: I18n.t("network.status.current_device") || "Current Device", mac: "", name: I18n.t("network.status.current_device") || "Current Device", icon: "󰒓", action: "", isInfoNode: false, isActionable: true, cmdStr: "TOGGLE_VIEW", parentIndex: -1 });
+         }
+ 
++        // Запускает nm-connection-editor: cmdStr + isInfoNode=true уводит клик
++        // в execDetached-ветку handleTrigger (как у карточки «Сканировать»).
++        newNetworks.push({ id: "action_nm_edit", ssid: "", mac: "", name: I18n.t("network.actions.editor") || "Manage connections", icon: "✎", action: "", isInfoNode: true, isActionable: true, cmdStr: "nm-connection-editor", parentIndex: -1 });
++
+         if (!window.deepEqual(window.wifiList, newNetworks)) {
+             if (window.isListLocked) window.nextWifiList = newNetworks;
+             else { window.syncModel(wifiListModel, newNetworks); window.wifiList = newNetworks; window.nextWifiList = null; window.refreshOrbitDisplay(); }
+@@ -2269,7 +2273,7 @@
+ 
+                         property bool isPairedBT: window.activeMode === "bt" && (typeof action !== "undefined" && action === "Connect")
+                         property bool isTargetWifi: window.activeMode === "wifi" && !window.isWifiConn && itemId === window.targetWifiSsid
+-                        property bool isSpecialAction: itemId === "action_scan" || itemId === "action_settings" || itemId === "ip_0" || itemId.indexOf("forget_") === 0
++                        property bool isSpecialAction: itemId === "action_scan" || itemId === "action_settings" || itemId === "action_nm_edit" || itemId === "ip_0" || itemId.indexOf("forget_") === 0
+                         property bool isHighlighted: isPairedBT || isTargetWifi || isSpecialAction
+ 
+                         property bool isCurrentlyConnected: {
+--- a/assets/languages/en.json
++++ b/assets/languages/en.json
+@@ -938,7 +938,8 @@
+     },
+     "actions": {
+       "unpair": "Unpair",
+-      "scan": "Scan"
++      "scan": "Scan",
++      "editor": "Manage connections"
+     }
+   },
+   "notifications": {
+--- a/assets/languages/ru.json
++++ b/assets/languages/ru.json
+@@ -982,7 +982,8 @@
+     },
+     "actions": {
+       "unpair": "Забыть",
+-      "scan": "Сканировать"
++      "scan": "Сканировать",
++      "editor": "Редактор сетей"
+     }
+   },
+   "notifications": {
