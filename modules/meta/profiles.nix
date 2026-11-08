@@ -24,6 +24,7 @@ in
         n.database
         n.cli
         n.toys
+        n.games
         n.develop
         n.zed
         n.tg-ws-proxy
