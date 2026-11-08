@@ -86,6 +86,7 @@
         material-symbols
         noto-fonts-color-emoji
         rubik
+        corefonts
         nerd-fonts.jetbrains-mono
         nerd-fonts.caskaydia-cove
       ];
@@ -102,6 +103,7 @@
         "unrar"
         "chromium"
         "onlyoffice-desktopeditors"
+        "corefonts"
       ];
     };
 }

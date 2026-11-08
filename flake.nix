@@ -31,6 +31,10 @@
       url = "github:dan-online/opencode-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pixel-sddm = {
+      url = "github:mahaveergurjar/sddm?ref=pixel";
+      flake = false;
+    };
     pixie-sddm = {
       url = "github:xCaptaiN09/pixie-sddm";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +42,10 @@
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ronin-sddm = {
+      url = "github:mahaveergurjar/sddm?ref=ronin";
+      flake = false;
     };
     serpantinum.url = "git+https://github.com/ilyamiro/serpantinum?rev=86ed6452f77a7a6c7491a24459235405b50e5deb";
     shell-wallpapers = {
