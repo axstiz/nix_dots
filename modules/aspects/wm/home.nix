@@ -75,6 +75,10 @@
       # --- Hyprland ---
       wayland.windowManager.hyprland = {
         enable = true;
+        # Сам бинарь ставит системный programs.hyprland. package=null нужен,
+        # т.к. HM overriding'ом .override { hyprland } у xdg-desktop-portal-hyprland
+        # несовместим с nixpkgs 2026-11 (аргумент hyprland у портала убрали).
+        package = null;
         configType = "hyprlang";
 
         # Home Manager генерирует для plugins только exec-once, а он не
@@ -98,6 +102,7 @@
             "serpantinumd start"
             "$HOME/bin/apply-wallpaper.sh"
             "$HOME/bin/ensure-visualizer.sh"
+            "$HOME/bin/captive-portal-watch.sh"
             "wl-paste --type text --watch cliphist store"
             "wl-paste --type image --watch cliphist store"
           ];
@@ -109,7 +114,32 @@
             "HYPRCURSOR_THEME,rose-pine-hyprcursor"
           ];
 
-          monitor = [ "eDP-1,1920x1080@60,0x0,1" ];
+          monitor = [
+            "eDP-1,1920x1080@60,0x0,1"
+            # ЭКСПЕРИМЕНТ (2026-11-06): @60 на сутки-двое для изоляции
+            # HDMI-FRL/PCON+DSC-тракта: фоллы («зелёный экран», зависания,
+            # DCN/DMCUB-локапы) шли и на @144, и на @120 — следующий
+            # подозреваемый FRL. Если на @60 пропадут — точечный kernel-bump;
+            # если нет — следующий тест amdgpu.dpm=0. Потом вернуть натив.
+            "HDMI-A-1,2560x1440@60,0x-1080,1.3333334"
+          ];
+
+          # persistent:true — workspace закреплён за монитором на весь цикл
+          # жизни сессии и создаётся на нём при каждом старте, иначе
+          # monitor-rule действует только при первом создании workspace,
+          # и «переехавшие» вручную/до применения правила остаются на месте.
+          workspace = [
+            "1, monitor:HDMI-A-1, persistent:true"
+            "2, monitor:HDMI-A-1, persistent:true"
+            "3, monitor:HDMI-A-1, persistent:true"
+            "4, monitor:HDMI-A-1, persistent:true"
+            "5, monitor:HDMI-A-1, persistent:true"
+            "6, monitor:HDMI-A-1, persistent:true"
+            "7, monitor:HDMI-A-1, persistent:true"
+            "8, monitor:HDMI-A-1, persistent:true"
+            "9, monitor:HDMI-A-1, persistent:true"
+            "10, monitor:eDP-1, persistent:true"
+          ];
 
           general = {
             gaps_in = 5;
@@ -236,6 +266,10 @@
 
           misc = {
             disable_hyprland_logo = true;
+          };
+
+          xwayland = {
+            force_zero_scaling = true;
           };
 
           input = {
