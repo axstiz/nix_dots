@@ -29,7 +29,29 @@
             macAddress = "permanent";
             scanRandMacAddress = false;
           };
+          # Проверка доступности (captive portal): NM сам отличает сеть с
+          # регистрацией (connectivity = portal) от обычной. Дефолтный NM-URI
+          # (gstatic generate_204) порт белый-листит → NM видит full и портал
+          # не детектится. Ставим GNOME-эндпоинт, который порты не белый-листят:
+          # на редиректе на страницу входа NM вернёт portal. Интервал укорочен
+          # с дефолтных 300 с. Состояние читает ~/bin/captive-portal-watch.sh
+          # (см. homeManager-модуль ниже).
+          settings.connectivity = {
+            enabled = true;
+            uri = "http://nmcheck.gnome.org/check_network_status.txt";
+            response = "NetworkManager is online";
+            interval = 60;
+          };
         };
       };
     };
+
+  flake.modules.homeManager.networking = { ... }: {
+    # Открывает страницу входа при подключении к сети с регистрацией
+    # (captive portal). Запускается через exec-once в wm/home.nix.
+    home.file."bin/captive-portal-watch.sh" = {
+      source = ./networking/captive-portal-watch.sh;
+      executable = true;
+    };
+  };
 }

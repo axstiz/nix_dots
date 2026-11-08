@@ -40,6 +40,7 @@ in
       ];
       desktop = minimal ++ [
         hm.cli
+        hm.networking
         hm.serpantinum
         hm.tg-ws-proxy
         hm.wm
