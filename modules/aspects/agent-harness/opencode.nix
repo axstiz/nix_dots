@@ -25,26 +25,23 @@
 
       settings = {
         "$schema" = "https://opencode.ai";
-        provider.omniroute = {
-          name = "OmniRoute";
-          options = {
-            baseURL = "http://localhost:20128/v1";
-            apiKey = "sk_omniroute";
-          };
-          models = {
-            auto = {
-              name = "auto";
-            };
-            "auto/coding" = {
-              name = "auto/coding";
-            };
-            "auto/fast" = {
-              name = "auto/fast";
-            };
-          };
-        };
 
-        model = "omniroute/auto/coding";
+        /*
+          provider.omniroute = {
+            name = "OmniRoute";
+            options = {
+              baseURL = "http://localhost:20128/v1";
+              apiKey = "sk_omniroute";
+            };
+            models = {
+              auto = { name = "auto"; };
+              "auto/coding" = { name = "auto/coding"; };
+              "auto/fast" = { name = "auto/fast"; };
+            };
+          };
+        */
+
+        model = "auto";
         tools = {
           bash = true;
           edit = true;
