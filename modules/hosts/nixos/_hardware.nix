@@ -23,6 +23,10 @@
   boot.kernelParams = [
     "amdgpu.dcdebugmask=0x10"
     "amdgpu.gpu_recovery=1"
+    # ВНИМАНИЕ: «amdgpu.dpm=0» НЕ добавлять — на iGPU Barcelo (DCN2.1)
+    # полное отключение DPM ломает ранний бут (проверено 2026-11-06:
+    # система не стартовала вовсе). Точечная подача SMU через
+    # ppfeaturemask не проверена; следующий кандидат — kernel-bump.
   ];
 
   fileSystems."/" = {
