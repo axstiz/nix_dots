@@ -1,5 +1,9 @@
 {
   flake.modules.nixos.apps = { pkgs, ... }: {
+    # gvfs нужен nautilus для виртуальных URI: trash и т.п.
+    # Без него nautilus не открывает корзину.
+    services.gvfs.enable = true;
+
     environment.systemPackages = with pkgs; [
       telegram-desktop
       yandex-music
