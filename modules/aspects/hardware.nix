@@ -2,6 +2,14 @@
   flake-file.inputs.nixos-hardware.url = "github:nixos/nixos-hardware";
   flake-file.inputs.nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
 
+  # Точечный бамп ядра (фаза D, 2026-11-08): только kernelPackages берётся
+  # из свежего снапшота nixpkgs с ядром 6.18.60 (наш основной lock даёт
+  # 6.18.53, на котором серия «безмолвных» DMCUB-локапов DCN2.1 у iGPU
+  # Barcelo). Весь остальной мир остаётся на основном lock — полная
+  # пересборка не требуется. Если фоллы прекратятся — отметить и
+  # предложить: удерживать параллельный инпут или свернуть с основного.
+  flake-file.inputs.nixpkgs-kernel.url = "github:nixos/nixpkgs/0bb2eedc20e4739f29e8045034f2828ad7054f8f";
+
   flake.modules.nixos.hardware-base =
     {
       inputs,
@@ -21,6 +29,14 @@
     in
     {
       imports = [ inputs.nixos-hardware.nixosModules.${"common-cpu-" + cpu} ];
+
+      # Тест LTS-ядра 6.12 (фаза E, 2026-11-08): 6.18.60 не спасает от
+      # «безмолвных» DMCUB-локапов DCN2.1 у Barcelo даже с sg_display=0 +
+      # dcdebugmask + gpu_recovery (упало через ~55 c после входа). Берём
+      # зрелое LTS-ядро из основного pkgs — у него годы фиксов DCN2.1.
+      # Если хэнги прекратятся — постараться убрать параметры из
+      # _hardware.nix по одному и свернуть nixpkgs-kernel-инпут.
+      boot.kernelPackages = pkgs.linuxPackages_6_12;
 
       services.tlp = lib.mkIf laptop {
         enable = true;

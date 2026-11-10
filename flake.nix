@@ -18,6 +18,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-kernel.url = "github:nixos/nixpkgs/0bb2eedc20e4739f29e8045034f2828ad7054f8f";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     noctalia-sddm = {
       url = "github:mahaveergurjar/sddm?ref=noctalia";
