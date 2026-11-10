@@ -21,6 +21,15 @@
       boot.loader.systemd-boot.configurationLimit = 10;
       boot.loader.efi.canTouchEfiVariables = true;
 
+      # Barcelo: зависание GPU с однотонной заливкой экрана (в т.ч. ярко-зелёный
+      # внешний монитор) при output через scatter-gather VRAM: у iGPU только
+      # 512 МБ dedicated VRAM, дисплейные буферы идут через GART. Отключаем
+      # scatter-gather для display plane — буферы копируются в GART явно.
+      boot.kernelParams = [
+        "amdgpu.sg_display=0"
+      ]
+      ++ lib.optionals (h.resumeOffset or null != null) [ "resume_offset=${h.resumeOffset}" ];
+
       # --- ГИБЕРНАЦИЯ (suspend-to-disk) ---
       # Включается только если хост задал resumeDevice/resumeOffset в _settings.nix.
       # Образ ОЗУ пишется в swap-файл; ядро при загрузке ищет его по
@@ -28,7 +37,6 @@
       # ВАЖНО: если вручную удалить/пересоздать swap-файл —
       # resume_offset пересчитать (sudo filefrag -v /var/lib/swapfile) и обновить.
       boot.resumeDevice = lib.mkIf (h.resumeDevice or null != null) h.resumeDevice;
-      boot.kernelParams = lib.mkIf (h.resumeOffset or null != null) [ "resume_offset=${h.resumeOffset}" ];
 
       # --- SWAP ---
       # Сжатая подкачка в RAM: дёшево и без износа SSD.
