@@ -101,7 +101,6 @@
           exec-once = [
             "serpantinumd start"
             "$HOME/bin/apply-wallpaper.sh"
-            "$HOME/bin/ensure-visualizer.sh"
             "$HOME/bin/captive-portal-watch.sh"
             "wl-paste --type text --watch cliphist store"
             "wl-paste --type image --watch cliphist store"

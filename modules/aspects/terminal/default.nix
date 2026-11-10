@@ -81,14 +81,6 @@
         executable = true;
       };
 
-      # Добавляет на рабочий стол виджет-визуализатор звука (тип "bars"), если его
-      # ещё нет в разметке виджетов (см. exec-once в wm). Положение/размер можно
-      # поменять в Guide -> Display -> Widgets; ручной ре-плейсмент не трогается.
-      home.file."bin/ensure-visualizer.sh" = {
-        source = ./_assets/bin/ensure-visualizer.sh;
-        executable = true;
-      };
-
       # Чтобы `brain` (и остальные скрипты из ~/bin) были в PATH
       home.sessionPath = [ "$HOME/bin" ];
 
